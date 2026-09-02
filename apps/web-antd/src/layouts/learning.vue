@@ -8,6 +8,7 @@ import { cn } from '@vben/utils';
 import { Badge, message } from 'ant-design-vue';
 
 import { learningHeaderActions, learningMenus } from '#/views/learning/menus';
+import ProfilePanel from '#/views/learning/profile-panel.vue';
 import SearchPanel from '#/views/learning/search-panel.vue';
 
 defineOptions({ name: 'LearningLayout' });
@@ -16,6 +17,7 @@ const route = useRoute();
 const router = useRouter();
 const keyword = ref('');
 const searchOpen = ref(false);
+const profileOpen = ref(false);
 
 provide('learningKeyword', keyword);
 
@@ -35,7 +37,10 @@ const isCourseDetail = computed(
 const isPracticeLoading = computed(
   () => route.name === 'LearningPracticeLoading',
 );
-const pageTitle = computed(() => String(route.meta.title || '课程广场'));
+const isHome = computed(() => route.path === '/learning/home');
+const pageTitle = computed(() =>
+  isHome.value ? '个人中心' : String(route.meta.title || '课程广场'),
+);
 
 function isActive(path: string) {
   if (path === '/learning/course-square' && isCourseDetail.value) {
@@ -64,14 +69,25 @@ function menuItemClass(path: string, extra = false) {
   <RouterView v-if="isPracticeLoading" />
   <div v-else class="flex h-screen overflow-hidden bg-[#101012] text-[#f4f4f5]">
     <aside
-      class="flex w-[168px] shrink-0 flex-col border-r border-[#27282e] bg-[#1e1f24] px-[11px] py-3 pt-[18px] max-[700px]:w-[57px] max-[700px]:px-1.5 max-[700px]:py-2.5"
+      class="flex w-[168px] shrink-0 flex-col border-r border-[#27282e] bg-[#1e1f24] px-[11px] py-3 pt-[0px] max-[700px]:w-[57px] max-[700px]:px-1.5 max-[700px]:py-2.5"
     >
       <div
+        style="    height: 5.35714rem;"
         class="relative flex h-[52px] items-center gap-1 pl-1 max-[700px]:justify-center max-[700px]:p-0"
       >
-        <img src="https://www.waxueshe.com/v0.0.137/assets/ico-B8-iFjhn.png" alt="" style="width: 42px;height: 42px;">
+        <button
+          class="flex cursor-pointer items-center gap-1 border-0 bg-transparent p-0 text-left"
+          data-profile-trigger
+          type="button"
+          @click="profileOpen = true"
+        >
+          <img src="https://www.waxueshe.com/v0.0.137/assets/ico-B8-iFjhn.png" alt="" style="width: 42px;height: 42px;">
 
-        <b class="text-base font-bold max-[700px]:hidden">哇学社</b>
+          <div class="text-base font-bold max-[700px]:hidden">
+            <span style="font-size: 0.71429rem;">哇小王</span>
+            <img style="width: 60px;height: 26px;" src="https://www.waxueshe.com/v0.0.137/assets/tagStudyM-Wmp2sFUE.png">
+          </div>
+        </button>
       </div>
 
       <nav class="flex flex-1 flex-col gap-1 overflow-auto [scrollbar-width:none]">
@@ -142,7 +158,7 @@ function menuItemClass(path: string, extra = false) {
             <span>课程详情</span>
           </template>
           <template v-else>
-            <IconifyIcon icon="lucide:layout-grid" />
+            <IconifyIcon :icon="isHome ? 'lucide:house' : 'lucide:layout-grid'" />
             {{ pageTitle }}
           </template>
         </div>
@@ -175,7 +191,14 @@ function menuItemClass(path: string, extra = false) {
             </Badge>
             <span class="hidden min-[1201px]:inline">系统消息</span>
           </button>
-          <img src="https://www.waxueshe.com/v0.0.137/assets/ico-B8-iFjhn.png" alt="" style="width: 42px;height: 42px;">
+          <button
+            class="cursor-pointer border-0 bg-transparent p-0"
+            data-header-profile-trigger
+            type="button"
+            @click="router.push('/learning/home')"
+          >
+            <img src="https://www.waxueshe.com/v0.0.137/assets/ico-B8-iFjhn.png" alt="" style="width: 42px;height: 42px;">
+          </button>
         </div>
       </header>
 
@@ -187,5 +210,6 @@ function menuItemClass(path: string, extra = false) {
     </div>
 
     <SearchPanel v-model:open="searchOpen" />
+    <ProfilePanel v-model:open="profileOpen" />
   </div>
 </template>

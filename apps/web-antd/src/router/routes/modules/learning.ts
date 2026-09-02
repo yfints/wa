@@ -5,7 +5,10 @@ import { learningMenus } from '#/views/learning/menus';
 const comingSoon = () => import('#/views/learning/coming-soon/index.vue');
 
 const children: RouteRecordRaw[] = learningMenus.map((item) => {
-  const isCourseSquare = item.key === 'course-square' || item.key === 'home';
+  const pageMap: Record<string, RouteRecordRaw['component']> = {
+    home: () => import('#/views/learning/home/index.vue'),
+    'course-square': () => import('#/views/learning/course-square/index.vue'),
+  };
 
   return {
     name: `Learning${item.key
@@ -13,9 +16,7 @@ const children: RouteRecordRaw[] = learningMenus.map((item) => {
       .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
       .join('')}`,
     path: item.path.replace('/learning/', ''),
-    component: isCourseSquare
-      ? () => import('#/views/learning/course-square/index.vue')
-      : comingSoon,
+    component: pageMap[item.key] ?? comingSoon,
     meta: {
       hideInMenu: true,
       hideInTab: true,
