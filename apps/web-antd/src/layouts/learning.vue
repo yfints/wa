@@ -158,7 +158,15 @@ function menuItemClass(path: string, extra = false) {
             <span>课程详情</span>
           </template>
           <template v-else>
-            <IconifyIcon :icon="isHome ? 'lucide:house' : 'lucide:layout-grid'" />
+            <IconifyIcon
+              :icon="
+                isHome
+                  ? 'lucide:house'
+                  : route.path === '/learning/textbook'
+                    ? 'lucide:book-open'
+                    : 'lucide:layout-grid'
+              "
+            />
             {{ pageTitle }}
           </template>
         </div>

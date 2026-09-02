@@ -102,14 +102,17 @@ export const honorList: HonorUser[] = [
   { rank: 12, name: '今日也学习', duration: '00小时21分钟', avatarHue: 100 },
 ];
 
-export function getMonthBars(year: number, month: number, today: number) {
+export function getMonthBars(year: number, month: number) {
   const days = new Date(year, month, 0).getDate();
   return Array.from({ length: days }, (_, index) => {
     const day = index + 1;
-    return {
-      day,
-      today: day === today,
-      value: day === 1 ? 42 : day === 2 ? 28 : 0,
-    };
+    let value = 0;
+    if (year === 2026 && month === 9) {
+      value = day === 1 ? 28 : day === 2 ? 42 : 0;
+    } else if (new Date(year, month - 1, day) < new Date(2026, 8, 1)) {
+      const seed = (year * 12 + month) * 31 + day;
+      value = seed % 5 === 0 ? 0 : 12 + (seed % 36);
+    }
+    return { day, value };
   });
 }
