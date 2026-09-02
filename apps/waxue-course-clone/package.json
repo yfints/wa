@@ -1,0 +1,16 @@
+{
+  "name": "@vben/waxue-course-clone",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@vitejs/plugin-vue": "catalog:",
+    "vite": "catalog:",
+    "vue": "catalog:"
+  },
+  "devDependencies": {}
+}
