@@ -205,3 +205,7 @@ function buildCatalog() {
 }
 
 export const textbookList = buildCatalog();
+
+export function getBookById(id: string) {
+  return textbookList.find((item) => item.id === id);
+}

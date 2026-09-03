@@ -1,4 +1,4 @@
-﻿<script lang="ts" setup>
+﻿  <script lang="ts" setup>
 import { computed, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -6,6 +6,8 @@ import { IconifyIcon } from '@vben/icons';
 import { cn } from '@vben/utils';
 
 import { message } from 'ant-design-vue';
+
+import LearningProgress from '#/component/progress.vue';
 
 import CourseCover from '../course-square/course-cover.vue';
 import { getCourseById } from '../course-square/data';
@@ -38,9 +40,6 @@ watch(
 const finishedCount = computed(
   () => lessons.value.filter((item) => item.finished > 0).length,
 );
-const progress = computed(() =>
-  Math.round((finishedCount.value / lessons.value.length) * 100),
-);
 
 function continueLearn() {
   modeOpen.value = true;
@@ -51,9 +50,9 @@ function toggleFavorite() {
   message.success(favorited.value ? '已收藏' : '已取消收藏');
 }
 
-function resetProgress() {
-  lessons.value = createLessons();
-  message.success('进度已重置');
+function removeCourse() {
+  message.success('已删除该课程');
+  void router.push('/learning/course-square');
 }
 </script>
 
@@ -71,7 +70,7 @@ function resetProgress() {
           />
         </div>
         <div class="min-w-0 flex-1">
-          <h1 class="mb-1.5 text-xl font-bold text-white">{{ course.title }}</h1>
+          <h1 class="mb-1.5 text-xl font-bold text-[var(--learn-fg)]">{{ course.title }}</h1>
           <p class="m-0 text-[13px] text-[#9a9aa8]">
             {{ finishedCount }} / {{ lessons.length }} 课时
           </p>
@@ -100,27 +99,13 @@ function resetProgress() {
           </button>
         </div>
       </div>
-      <div
-        class="mt-3.5 flex min-h-11 flex-col items-start justify-between gap-2.5 rounded-lg bg-[#101014] px-3.5 py-3 min-[901px]:flex-row min-[901px]:items-center min-[901px]:py-0"
-      >
-        <div class="flex gap-[18px] text-[13px] text-[#b7b7c2]">
-          <span>学习: 39分45秒</span>
-          <span>最近: 大约18小时前</span>
-        </div>
-        <div class="flex items-center gap-2.5">
-          <div class="h-1.5 w-[180px] overflow-hidden rounded-full bg-[#2a2a32]">
-            <i class="block h-full bg-blue-500" :style="{ width: `${progress}%` }"></i>
-          </div>
-          <b class="w-9 text-[13px] text-[#d5d5de]">{{ progress }}%</b>
-          <button
-            class="h-7 cursor-pointer rounded-md border border-[#3a3a44] bg-transparent px-2.5 text-xs text-[#c5c5cf]"
-            type="button"
-            @click="resetProgress"
-          >
-            重置进度
-          </button>
-        </div>
-      </div>
+      <LearningProgress
+        learned-time="39分45秒"
+        last-learned="大约18小时前"
+        :finished="finishedCount"
+        :total="lessons.length"
+        @remove="removeCourse"
+      />
     </section>
 
     <section
@@ -129,7 +114,7 @@ function resetProgress() {
       <article
         v-for="lesson in lessons"
         :key="lesson.id"
-        class="relative min-h-[132px] cursor-pointer rounded-[10px] border p-4 pb-3.5"
+        class="relative  cursor-pointer rounded-[10px] border p-4 pb-3.5 hover_css"
         :class="
           cn(
             lesson.recent
@@ -152,7 +137,8 @@ function resetProgress() {
           {{ lesson.recent ? '最近学习' : '暂未练习' }}
         </span>
         <h3
-          class="mb-[18px] max-w-[86%] text-[15px] leading-[22px] font-semibold text-[#f3f3f7]"
+          class="mb-[18px] max-w-[86%] text-[15px] leading-[22px] font-semibold"
+          :class="lesson.recent ? 'text-white' : 'text-[var(--learn-fg)]'"
         >
           {{ lesson.title }} · {{ lesson.en }}
         </h3>
@@ -168,7 +154,10 @@ function resetProgress() {
             <IconifyIcon icon="lucide:circle-check" />
             已完成{{ lesson.finished }}次
           </span>
-          <em class="ml-auto text-lg font-bold not-italic text-white/20">
+          <em
+            class="ml-auto text-lg font-bold not-italic"
+            :class="lesson.recent ? 'text-white/30' : 'text-[var(--learn-fg)]/25'"
+          >
             #{{ lesson.id }}
           </em>
         </div>
@@ -197,5 +186,11 @@ function resetProgress() {
 .thumb-cover :deep(.characters),
 .thumb-cover :deep(.cover em) {
   display: none;
+}
+.hover_css{
+  &:hover{
+
+    background: linear-gradient(to right, #604bff4d, #74eaff4d);
+  }
 }
 </style>

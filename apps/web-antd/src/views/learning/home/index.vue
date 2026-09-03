@@ -200,7 +200,7 @@ function handleDetail(label: string) {
             <button
               v-for="item in detailCards"
               :key="item.label"
-              class="min-w-0 cursor-pointer rounded-lg border-0 px-2 py-2 text-center detailCards_css hover_css"
+              class="min-w-0 cursor-pointer rounded-lg border-0 px-2 py-2 text-center detailCards_css hover_css  bg-[#1b2748]"
 
               type="button"
               @click="handleDetail(item.label)"

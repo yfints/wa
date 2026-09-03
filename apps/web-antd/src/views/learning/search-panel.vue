@@ -218,7 +218,7 @@ function onMaskClick(event: MouseEvent) {
   align-items: center;
   justify-content: center;
   padding: 32px 16px;
-  background: rgb(8 8 10 / 42%);
+  background: var(--learn-overlay);
   backdrop-filter: blur(10px);
 }
 
@@ -229,10 +229,10 @@ function onMaskClick(event: MouseEvent) {
   width: min(860px, 92vw);
   height: min(620px, 82vh);
   padding: 22px 28px 28px;
-  background: rgb(36 37 43 / 58%);
-  border: 1px solid rgb(255 255 255 / 10%);
+  background: var(--learn-glass);
+  border: 1px solid var(--learn-border);
   border-radius: 28px;
-  box-shadow: 0 24px 80px rgb(0 0 0 / 35%);
+  box-shadow: 0 24px 80px rgb(0 0 0 / 18%);
   backdrop-filter: blur(22px);
 }
 
@@ -242,27 +242,27 @@ function onMaskClick(event: MouseEvent) {
   align-items: center;
   height: 52px;
   padding: 0 18px;
-  background: rgb(20 21 26 / 55%);
-  border: 1px solid rgb(255 255 255 / 8%);
+  background: var(--learn-input);
+  border: 1px solid var(--learn-border);
   border-radius: 999px;
 }
 
 .search-icon {
   font-size: 20px;
-  color: #cfcfd6;
+  color: var(--learn-muted);
 }
 
 .search-bar input {
   width: 100%;
   font-size: 16px;
-  color: #f4f4f5;
+  color: var(--learn-fg);
   background: transparent;
   border: 0;
   outline: none;
 }
 
 .search-bar input::placeholder {
-  color: #8b8b96;
+  color: var(--learn-muted);
 }
 
 .close {
@@ -274,15 +274,15 @@ function onMaskClick(event: MouseEvent) {
   justify-content: center;
   width: 40px;
   height: 40px;
-  color: #eee;
+  color: var(--learn-fg);
   cursor: pointer;
-  background: rgb(36 37 43 / 70%);
-  border: 1px solid rgb(255 255 255 / 10%);
+  background: var(--learn-glass);
+  border: 1px solid var(--learn-border);
   border-radius: 50%;
 }
 
 .close:hover {
-  background: rgb(55 56 64 / 80%);
+  background: var(--learn-hover);
 }
 
 .empty {
@@ -291,7 +291,7 @@ function onMaskClick(event: MouseEvent) {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #d8d8df;
+  color: var(--learn-fg);
 }
 
 .frog {
@@ -331,7 +331,7 @@ function onMaskClick(event: MouseEvent) {
   font-size: 13px;
   font-weight: 500;
   line-height: 19px;
-  color: #ececf1;
+  color: var(--learn-fg);
   -webkit-box-orient: vertical;
 }
 

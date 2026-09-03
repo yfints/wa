@@ -1,0 +1,190 @@
+/**
+ * 学习模块主题适配样式
+ *
+ * 背景:学习相关页面使用了大量写死的深色 Tailwind 任意值类,
+ * 无法跟随框架的亮/暗主题切换。
+ *
+ * 方案:
+ * 1. 定义一套 --learn-* 语义化 CSS 变量,分别在 :root(白天)与 html.dark(暗黑)下取值;
+ * 2. 将页面里写死的背景/边框/文字类统一映射到这些变量(!important 覆盖 Tailwind 原始值);
+ * 3. 对白天模式下的特殊场景(彩色/渐变按钮上的白字等)做局部修正。
+ *
+ * 引用位置:src/bootstrap.ts 全局引入
+ */
+
+/* ==============================
+ * 一、主题变量定义
+ * ============================== */
+
+/* 白天模式(默认) */
+:root {
+  --learn-bg: #f3f5fa;      /* 页面底色 */
+  --learn-sidebar: #ffffff; /* 侧边栏背景 */
+  --learn-card: #ffffff;    /* 卡片背景 */
+  --learn-card-2: #f6f7fb;  /* 次级卡片背景 */
+  --learn-inset: #eef0f6;   /* 内嵌区域背景 */
+  --learn-input: #f1f3f7;   /* 输入框背景 */
+  --learn-border: #e4e6ee;  /* 边框颜色 */
+  --learn-fg: #1c1e26;      /* 主文字颜色 */
+  --learn-muted: #6b7080;   /* 次要文字颜色 */
+  --learn-hover: rgb(15 23 42 / 6%);     /* 悬停背景 */
+  --learn-divider: rgb(15 23 42 / 8%);   /* 分割线 */
+  --learn-overlay: rgb(15 23 42 / 32%);  /* 遮罩层 */
+  --learn-glass: rgb(255 255 255 / 88%); /* 毛玻璃背景 */
+  --learn-track: #e4e6ee;   /* 进度条轨道背景 */
+}
+
+/* 暗黑模式(框架主题为暗色时,html 标签带有 .dark 类) */
+html.dark {
+  --learn-bg: #101012;
+  --learn-sidebar: #1e1f24;
+  --learn-card: #16161c;
+  --learn-card-2: #1a1b21;
+  --learn-inset: #1c1d24;
+  --learn-input: #292a2f;
+  --learn-border: #2c2d34;
+  --learn-fg: #f4f4f5;
+  --learn-muted: #8b8b98;
+  --learn-hover: rgb(255 255 255 / 6%);
+  --learn-divider: rgb(255 255 255 / 6%);
+  --learn-overlay: rgb(8 8 10 / 42%);
+  --learn-glass: rgb(36 37 43 / 58%);
+  --learn-track: #2a2a32;
+}
+
+/* ==============================
+ * 二、颜色映射(覆盖页面写死的深色类)
+ * ============================== */
+
+/* --- 页面底色 --- */
+.bg-\[\#101012\],
+.bg-\[\#101014\],
+.bg-\[\#101624\] {
+  background-color: var(--learn-bg) !important;
+}
+
+/* --- 侧边栏背景 --- */
+.bg-\[\#1e1f24\] {
+  background-color: var(--learn-sidebar) !important;
+}
+
+/* --- 卡片背景 --- */
+.bg-\[\#16161c\],
+.bg-\[\#121826\] {
+  background-color: var(--learn-card) !important;
+}
+
+/* --- 次级卡片/进度条容器背景 --- */
+.bg-\[\#1a1b21\],
+.bg-\[\#1c1c21\],
+.bg-\[\#1c1d24\],
+.bg-\[\#14151a\],
+.bg-\[\#1b2748\] {
+  background-color: var(--learn-card-2) !important;
+}
+
+/* --- 输入框背景 --- */
+.bg-\[\#292a2f\] {
+  background-color: var(--learn-input) !important;
+}
+
+/* --- 进度条轨道等深灰背景 --- */
+.bg-\[\#2a2a32\],
+.bg-\[\#262626\],
+.bg-\[\#2a2a2e\] {
+  background-color: var(--learn-track) !important;
+}
+
+/* --- 边框颜色 --- */
+.border-\[\#27282e\],
+.border-\[\#25262b\],
+.border-\[\#595a61\],
+.border-\[\#55565d\],
+.border-\[\#3a3b44\],
+.border-white\/5,
+.border-white\/10 {
+  border-color: var(--learn-border) !important;
+}
+
+/* --- 主文字颜色(深色模式下接近白色的文字类) --- */
+.text-\[\#f4f4f5\],
+.text-\[\#f1f1f1\],
+.text-\[\#f0f0f0\],
+.text-\[\#e6e6ee\],
+.text-\[\#eee\],
+.text-\[\#ececf1\],
+.text-\[\#d6d6de\],
+.text-\[\#dce6ff\],
+.text-\[\#cfcfd6\],
+.text-\[\#f3f3f7\] {
+  color: var(--learn-fg) !important;
+}
+
+/* --- 次要文字颜色(灰色系) --- */
+.text-\[\#9a9aa8\],
+.text-\[\#8b8b98\],
+.text-\[\#8f8f9a\],
+.text-\[\#c5c5cf\],
+.text-\[\#b8b8c2\],
+.text-\[\#777780\],
+.text-\[\#6f6f7c\],
+.text-\[\#8b909a\],
+.text-\[\#8a8a96\],
+.text-\[\#8d8d98\],
+.text-\[\#949499\] {
+  color: var(--learn-muted) !important;
+}
+
+/* --- 悬停背景(含 hover 变体) --- */
+.bg-white\/\[0\.06\],
+.hover\:bg-white\/\[0\.06\]:hover,
+.hover\:bg-white\/10:hover,
+.hover\:bg-white\/8:hover,
+.hover\:bg-white\/\[0\.04\]:hover {
+  background-color: var(--learn-hover) !important;
+}
+
+/* 与上方第一条规则重复,保留用于提高优先级(保证同权重下后声明的覆盖) */
+.bg-white\/\[0\.06\] {
+  background-color: var(--learn-hover) !important;
+}
+
+/* ==============================
+ * 三、白天模式下的局部修正
+ * ============================== */
+
+/* 白天模式下,学习模块内通用 .text-white 改为深色主文字 */
+html:not(.dark) .learning-app .text-white {
+  color: var(--learn-fg) !important;
+}
+
+/* 例外:彩色/渐变按钮上的白字保持白色,保证对比度 */
+html:not(.dark) .learning-app button.text-white,
+html:not(.dark) .learning-app [class*='bg-blue-'].text-white,
+html:not(.dark) .learning-app [class*='from-blue-'].text-white,
+html:not(.dark) .learning-app [class*='from-[#799cfb]'].text-white,
+html:not(.dark) .learning-app [class*='from-[#ff5c9a]'].text-white,
+html:not(.dark) .learning-app [class*='bg-amber-'].text-white {
+  color: #fff !important;
+}
+
+/* 渐变蓝色背景内部的浅色文字保持白色 */
+html:not(.dark) .learning-app [class*='from-blue-'] .text-\[\#f3f3f7\],
+html:not(.dark) .learning-app [class*='from-blue-'] .text-white {
+  color: #fff !important;
+}
+
+/* 白天模式下悬停白字改为深色主文字 */
+html:not(.dark) .learning-app .hover\:text-white:hover {
+  color: var(--learn-fg);
+}
+
+/* 白天模式下白色半透明背景改为深色半透明 */
+html:not(.dark) .learning-app .bg-white\/10 {
+  background-color: rgb(15 23 42 / 6%);
+}
+
+/* 白天模式下白色 20% 透明文字改为深色 28% 透明 */
+html:not(.dark) .learning-app .text-white\/20 {
+  color: rgb(28 30 38 / 28%);
+}

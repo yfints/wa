@@ -51,6 +51,16 @@ const routes: RouteRecordRaw[] = [
         },
       },
       {
+        name: 'LearningTextbookDetail',
+        path: 'textbook/:id',
+        component: () => import('#/views/learning/textbook/detail.vue'),
+        meta: {
+          hideInMenu: true,
+          hideInTab: true,
+          title: '课程详情',
+        },
+      },
+      {
         name: 'LearningPracticeLoading',
         path: 'practice/:id',
         component: () => import('#/views/learning/practice/loading.vue'),

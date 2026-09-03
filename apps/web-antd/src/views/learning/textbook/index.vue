@@ -2,6 +2,7 @@
 import type { Ref } from 'vue';
 
 import { computed, inject, ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
 
 import { cn } from '@vben/utils';
 
@@ -15,6 +16,7 @@ import {
 
 defineOptions({ name: 'LearningTextbook' });
 
+const router = useRouter();
 const fallbackKeyword = ref('');
 const keyword = inject<Ref<string>>('learningKeyword', fallbackKeyword);
 
@@ -50,6 +52,10 @@ const books = computed(() => {
     return matchStage && matchVersion && matchGrade && matchKeyword;
   });
 });
+
+function openBook(id: string) {
+  void router.push(`/learning/textbook/${id}`);
+}
 </script>
 
 <template>
@@ -125,7 +131,8 @@ const books = computed(() => {
       <article
         v-for="book in books"
         :key="book.id"
-        class="min-w-0 rounded-md border border-white/5 bg-[#16161c] p-2"
+        class="min-w-0 cursor-pointer rounded-md border border-white/5 bg-[#16161c] p-2 transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_9px_24px_rgb(58_45_126_/_28%)]"
+        @click="openBook(book.id)"
       >
         <BookCover
           :art="book.art"

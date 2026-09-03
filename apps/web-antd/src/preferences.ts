@@ -22,6 +22,9 @@ export const overridesPreferences = defineOverridesPreferences({
     defaultHomePath: '/learning/course-square',
     name: import.meta.env.VITE_APP_TITLE,
   },
+  theme: {
+    mode: 'dark',
+  },
   copyright: appCopyrightPreferences,
 });
 

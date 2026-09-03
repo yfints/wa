@@ -1,10 +1,14 @@
 <script lang="ts" setup>
-defineProps<{
-  art: 'desk' | 'school';
-  cover: string;
-  headline: string;
-  version: string;
-}>();
+withDefaults(
+  defineProps<{
+    art: 'desk' | 'school';
+    compact?: boolean;
+    cover: string;
+    headline: string;
+    version: string;
+  }>(),
+  { compact: false },
+);
 
 const coverTheme: Record<string, string> = {
   cream: '#f6efe2',
@@ -18,22 +22,30 @@ const coverTheme: Record<string, string> = {
 
 <template>
   <div
-    class="relative h-[210px] overflow-hidden rounded-md border border-black/5"
+    class="relative overflow-hidden rounded-md border border-black/5"
+    :class="compact ? 'h-full min-h-[110px]' : 'h-[210px]'"
     :style="{ background: coverTheme[cover] ?? '#f6efe2' }"
   >
     <div class="absolute inset-1.5 rounded border-2 border-white/70"></div>
-    <div class="relative z-[1] px-2 pt-5 text-center">
-      <p class="m-0 text-[15px] font-extrabold leading-5 text-[#173a47]">
+    <div class="relative z-[1] px-2 text-center" :class="compact ? 'pt-3' : 'pt-5'">
+      <p
+        class="m-0 font-extrabold leading-5 text-[#173a47]"
+        :class="compact ? 'text-[11px]' : 'text-[15px]'"
+      >
         {{ headline }}
       </p>
-      <p class="mt-1 mb-0 text-[12px] font-semibold text-[#7a5a2b]">
+      <p
+        class="mt-1 mb-0 font-semibold text-[#7a5a2b]"
+        :class="compact ? 'text-[10px]' : 'text-[12px]'"
+      >
         (新标准) {{ version }}
       </p>
     </div>
 
     <svg
       v-if="art === 'school'"
-      class="absolute right-1 bottom-1 h-[108px] w-[158px]"
+      class="absolute right-1 bottom-1"
+      :class="compact ? 'h-[56px] w-[82px]' : 'h-[108px] w-[158px]'"
       viewBox="0 0 158 108"
     >
       <ellipse cx="118" cy="102" fill="#8fbf6a" opacity="0.55" rx="38" ry="8" />
@@ -50,7 +62,8 @@ const coverTheme: Record<string, string> = {
 
     <svg
       v-else
-      class="absolute right-0 bottom-0 h-[108px] w-[158px]"
+      class="absolute right-0 bottom-0"
+      :class="compact ? 'h-[56px] w-[82px]' : 'h-[108px] w-[158px]'"
       viewBox="0 0 158 108"
     >
       <rect fill="#d9c7a8" height="18" rx="2" width="46" x="18" y="78" />
