@@ -1,4 +1,4 @@
-﻿  <script lang="ts" setup>
+﻿﻿  <script lang="ts" setup>
 import { computed, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -189,8 +189,7 @@ function removeCourse() {
 }
 .hover_css{
   &:hover{
-
-    background: linear-gradient(to right, #604bff4d, #74eaff4d);
+    background: var(--learn-hover-grad);
   }
 }
 </style>

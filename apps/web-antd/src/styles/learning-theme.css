@@ -32,6 +32,8 @@
   --learn-overlay: rgb(15 23 42 / 32%);  /* 遮罩层 */
   --learn-glass: rgb(255 255 255 / 88%); /* 毛玻璃背景 */
   --learn-track: #e4e6ee;   /* 进度条轨道背景 */
+  --learn-hover-grad: linear-gradient(to right, rgb(96 75 255 / 22%), rgb(116 234 255 / 26%));      /* 卡片悬浮渐变(浅色模式) */
+  --learn-hover-grad-soft: linear-gradient(to right, rgb(96 75 255 / 12%), rgb(116 234 255 / 16%)); /* 分类标签悬浮渐变(浅色模式) */
 }
 
 /* 暗黑模式(框架主题为暗色时,html 标签带有 .dark 类) */
@@ -50,6 +52,8 @@ html.dark {
   --learn-overlay: rgb(8 8 10 / 42%);
   --learn-glass: rgb(36 37 43 / 58%);
   --learn-track: #2a2a32;
+  --learn-hover-grad: linear-gradient(to right, #604bff4d, #74eaff4d);      /* 卡片悬浮渐变(暗黑模式) */
+  --learn-hover-grad-soft: linear-gradient(to right, #604bff33, #74eaff33); /* 分类标签悬浮渐变(暗黑模式) */
 }
 
 /* ==============================
@@ -187,4 +191,24 @@ html:not(.dark) .learning-app .bg-white\/10 {
 /* 白天模式下白色 20% 透明文字改为深色 28% 透明 */
 html:not(.dark) .learning-app .text-white\/20 {
   color: rgb(28 30 38 / 28%);
+}
+
+/* 白天模式下,悬浮不再强制白字(覆盖全局 .hover_css:hover 的 color:#fff),跟随元素自身颜色,保证浅色渐变上的可读性 */
+html:not(.dark) .hover_css:hover,
+html:not(.dark) .card:hover,
+html:not(.dark) .cate:hover {
+  color: inherit;
+}
+
+/*卡片悬浮(随明暗模式适配)*/
+.hover_css,
+.card {
+  &:hover {
+    background: var(--learn-hover-grad);
+  }
+}
+.cate {
+  &:hover {
+    background: var(--learn-hover-grad-soft);
+  }
 }

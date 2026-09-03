@@ -142,7 +142,7 @@ function removeCourse() {
 <style lang="scss" scoped>
 .hover_css{
   &:hover{
-    background: linear-gradient(to right, #604bff4d, #74eaff4d);
+    background: var(--learn-hover-grad);
   }
 }
 </style>

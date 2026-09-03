@@ -9,6 +9,7 @@ const children: RouteRecordRaw[] = learningMenus.map((item) => {
     home: () => import('#/views/learning/home/index.vue'),
     'course-square': () => import('#/views/learning/course-square/index.vue'),
     textbook: () => import('#/views/learning/textbook/index.vue'),
+    favorites: () => import('#/views/learning/favorites/index.vue'),
   };
 
   return {

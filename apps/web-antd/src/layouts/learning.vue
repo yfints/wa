@@ -45,9 +45,19 @@ const isPracticeLoading = computed(
   () => route.name === 'LearningPracticeLoading',
 );
 const isHome = computed(() => route.path === '/learning/home');
+const isFavorites = computed(() => route.path === '/learning/favorites');
 const pageTitle = computed(() =>
   isHome.value ? '个人中心' : String(route.meta.title || '课程广场'),
 );
+const searchPlaceholder = computed(() =>
+  isFavorites.value ? '搜索收藏的课程' : '搜索你想要的课程',
+);
+const headerIcon = computed(() => {
+  if (isHome.value) return 'lucide:house';
+  if (route.path === '/learning/textbook') return 'lucide:book-open';
+  if (isFavorites.value) return 'lucide:star';
+  return 'lucide:layout-grid';
+});
 
 function isActive(path: string) {
   if (path === '/learning/course-square' && isCourseDetail.value) {
@@ -192,15 +202,7 @@ function menuItemClass(path: string, extra = false) {
             <span>课程详情</span>
           </template>
           <template v-else>
-            <IconifyIcon
-              :icon="
-                isHome
-                  ? 'lucide:house'
-                  : route.path === '/learning/textbook'
-                    ? 'lucide:book-open'
-                    : 'lucide:layout-grid'
-              "
-            />
+            <IconifyIcon :icon="headerIcon" />
             {{ pageTitle }}
           </template>
         </div>
@@ -210,7 +212,7 @@ function menuItemClass(path: string, extra = false) {
           @click="searchOpen = true"
         >
           <IconifyIcon class="text-base text-[var(--learn-muted)]" icon="lucide:search" />
-          <span>搜索你想要的课程</span>
+          <span>{{ searchPlaceholder }}</span>
         </button>
         <div class="ml-auto hidden shrink-0 items-center gap-2 min-[701px]:flex">
           <button
